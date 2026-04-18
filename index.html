@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sen Lab - ইংরেজি শেখায় নতুন মাত্রা</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0d0c1d;
+      --surface:     #131229;
+      --card:        #1a1836;
+      --border:      #2b2952;
+      --accent:      #d4af37;
+      --accent-dim:  rgba(212,175,55,0.10);
+      --accent-glow: rgba(212,175,55,0.30);
+      --text:        #eae8f8;
+      --muted:       #7c7a9a;
+      --faint:       #252345;
+      --chip:        #1e1d3a;
+      --chip-hover:  #272554;
+      --green:       #27ae60;
+      --red:         #e05060;
+      --divider:     rgba(212,175,55,0.18);
+      --radius:      12px;
+      --tr:          0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    [data-theme="light"] {
+      --bg:          #f5eedd;
+      --surface:     #ece2cc;
+      --card:        #fdf7ec;
+      --border:      #d5c4a4;
+      --accent:      #8b5c2a;
+      --accent-dim:  rgba(139,92,42,0.10);
+      --accent-glow: rgba(139,92,42,0.28);
+      --text:        #1e1208;
+      --muted:       #9a7e60;
+      --faint:       #e0d4bc;
+      --chip:        #ece2cc;
+      --chip-hover:  #dfd4bb;
+      --divider:     rgba(139,92,42,0.2);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Crimson Text', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background var(--tr), color var(--tr);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      padding: 30px 0 20px;
+      border-bottom: 1px solid var(--divider);
+      margin-bottom: 48px;
+      position: relative;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -20px; right: -20px; bottom: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% -10%, var(--accent-dim), transparent 70%);
+      pointer-events: none;
+    }
+    .header-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .logo-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.3rem; font-weight: 700; letter-spacing: -0.03em;
+      color: var(--accent); line-height: 1;
+    }
+    .v-badge {
+      display: inline-block;
+      background: var(--accent); color: var(--bg);
+      font-size: 0.55rem; font-family: 'JetBrains Mono', monospace;
+      padding: 2px 7px; border-radius: 50px;
+      vertical-align: super; margin-left: 4px; font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .logo-sub {
+      font-family: 'Crimson Text', serif; font-style: italic;
+      font-size: 0.97rem; color: var(--muted); margin-top: 5px;
+    }
+    .header-right { display: flex; align-items: center; gap: 10px; padding-top: 4px; flex-wrap: wrap; }
+    .btn-pill {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 50px; padding: 8px 18px; cursor: pointer;
+      display: flex; align-items: center; gap: 7px;
+      font-family: 'Crimson Text', serif; font-size: 0.97rem;
+      color: var(--text); transition: all var(--tr); outline: none;
+    }
+    .btn-pill:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 14px var(--accent-glow); }
+    /* ===== VISITOR COUNTER ===== */
+    #visitorWidget {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--muted);
+      transition: color var(--tr);
+      margin-right: 8px;
+    }
+    .vc-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2.5s ease-in-out infinite;
+      transition: background var(--tr);
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); box-shadow:0 0 0 0 rgba(39, 174, 96, 0.45); }
+      50% { opacity:.7; transform:scale(.85); box-shadow:0 0 0 4px rgba(39, 174, 96, 0); }
+    }
+    #vcTotal { 
+      color: var(--green); 
+      font-weight: 500; 
+      transition: color var(--tr); 
+    }
+
+    /* ===== ORNAMENT ===== */
+    .ornament { text-align: center; color: var(--divider); font-size: 1rem; letter-spacing: 0.3em; margin: 48px 0; user-select: none; }
+
+    /* ===== SECTION ===== */
+    .section { margin-bottom: 4px; }
+    .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+    .step-badge {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--accent); color: var(--bg);
+      font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 600; flex: 1; }
+    .section-meta { display: flex; align-items: center; gap: 10px; margin-left: auto; flex-wrap: wrap; }
+    .section-count { font-size: 0.86rem; color: var(--muted); font-style: italic; }
+    .section-count em { color: var(--accent); font-style: normal; font-weight: 600; }
+    .act { font-size: 0.8rem; color: var(--muted); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; transition: color var(--tr); }
+    .act:hover { color: var(--accent); }
+
+    /* ===== SEARCH ===== */
+    .search-box {
+      width: 100%; max-width: 360px; padding: 9px 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text);
+      font-family: 'Crimson Text', serif; font-size: 1rem;
+      margin-bottom: 14px; transition: all var(--tr); outline: none;
+    }
+    .search-box::placeholder { color: var(--muted); }
+    .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+
+    /* ===== WORD CHIPS ===== */
+    .words-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .word-chip {
+      position: relative; background: var(--chip); border: 1px solid var(--border);
+      border-radius: 50px; padding: 7px 15px 7px 11px; cursor: pointer;
+      font-family: 'Crimson Text', serif; font-size: 0.97rem; color: var(--text);
+      transition: all var(--tr); user-select: none; display: flex; align-items: center; gap: 5px;
+    }
+    .word-chip:hover { background: var(--chip-hover); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px var(--accent-glow); z-index: 10; }
+    .word-chip.selected { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 600; box-shadow: 0 0 18px var(--accent-glow); transform: translateY(-2px); }
+    .chip-num { font-size: 0.68rem; opacity: 0.42; font-family: 'JetBrains Mono', monospace; }
+    .word-chip.selected .chip-num { opacity: 0.65; }
+
+    /* Tooltip (desktop hover) */
+    .word-chip .tip {
+      position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 11px 14px; width: 240px; font-size: 0.86rem; line-height: 1.5; color: var(--text);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.4); z-index: 200; pointer-events: none;
+      opacity: 0; transition: opacity 0.18s; white-space: normal; text-align: left;
+    }
+    .word-chip .tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--border); }
+    @media (hover: hover) { .word-chip:hover .tip { opacity: 1; } }
+    .tip-alts { color: var(--accent); font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+    .tip-bengali { font-size: 0.81rem; color: var(--muted); margin-top: 3px; }
+
+    /* Mobile word detail panel */
+    .word-detail-panel {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; margin-top: 12px; display: none; animation: fadeIn 0.2s ease;
+    }
+    .word-detail-panel.open { display: block; }
+    .wdp-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--accent); margin-bottom: 6px; }
+    .wdp-alts { font-size: 0.95rem; color: var(--text); }
+    .wdp-bengali { font-size: 0.88rem; color: var(--muted); margin-top: 5px; }
+
+    /* Preview tags */
+    .preview-row { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; min-height: 8px; }
+    .preview-tag {
+      background: var(--accent-dim); border: 1px solid var(--accent); border-radius: 50px;
+      padding: 3px 13px; font-size: 0.83rem; color: var(--accent);
+      font-family: 'Crimson Text', serif; animation: tagPop 0.2s ease;
+    }
+    @keyframes tagPop { from { opacity: 0; transform: scale(0.82); } to { opacity: 1; transform: scale(1); } }
+
+    /* ===== TOPICS ===== */
+    .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(288px, 1fr)); gap: 9px; }
+    .topic-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 13px 15px; cursor: pointer; display: flex; align-items: flex-start; gap: 11px;
+      transition: all var(--tr); user-select: none;
+    }
+    .topic-card:hover { border-color: var(--accent); background: var(--surface); transform: translateY(-1px); box-shadow: 0 5px 18px var(--accent-glow); }
+    .topic-card.selected { border-color: var(--accent); background: var(--accent-dim); box-shadow: inset 0 0 0 1px var(--accent); }
+    .topic-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent); opacity: 0.6; flex-shrink: 0; margin-top: 3px; min-width: 20px; }
+    .topic-card.selected .topic-num { opacity: 1; }
+    .topic-text { font-size: 0.95rem; line-height: 1.44; flex: 1; }
+    .topic-check { margin-left: auto; flex-shrink: 0; width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 4px; margin-top: 2px; transition: all var(--tr); display: flex; align-items: center; justify-content: center; font-size: 11px; }
+    .topic-card.selected .topic-check { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+    /* ===== STRICT PAIRING PANEL ===== */
+    .pairing-panel {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px 20px; margin-top: 16px; display: none;
+    }
+    .pairing-panel.open { display: block; animation: fadeIn 0.25s ease; }
+    .pairing-panel-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--accent); margin-bottom: 12px; font-style: italic; }
+    .pair-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--faint); font-size: 0.93rem; }
+    .pair-row:last-child { border-bottom: none; }
+    .pair-i { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); min-width: 20px; }
+    .pair-word { color: var(--accent); font-weight: 600; min-width: 130px; }
+    .pair-arr { color: var(--muted); }
+    .pair-topic { color: var(--text); font-size: 0.88rem; }
+    .pair-warn { font-size: 0.83rem; color: #e8b84b; margin-top: 8px; font-style: italic; }
+
+    /* ===== COUNTER + OPTIONS ===== */
+    .counter-wrap { display: flex; flex-direction: column; align-items: center; padding: 30px 0 22px; }
+    .counter-question { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; text-align: center; }
+    .counter-row { display: flex; align-items: center; gap: 28px; }
+    .c-btn { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); background: transparent; color: var(--accent); font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all var(--tr); font-family: 'JetBrains Mono', monospace; }
+    .c-btn:hover { background: var(--accent); color: var(--bg); box-shadow: 0 0 22px var(--accent-glow); transform: scale(1.12); }
+    .c-btn:active { transform: scale(0.97); }
+    .c-val { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 700; color: var(--accent); line-height: 1; min-width: 120px; text-align: center; text-shadow: 0 0 35px var(--accent-glow); transition: transform 0.12s ease, opacity 0.12s ease; }
+    .c-val.bump { transform: scale(1.18); opacity: 0.8; }
+
+    /* Mode Options */
+    .mode-options { display: flex; gap: 12px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
+    .mode-card {
+      background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius);
+      padding: 14px 20px; cursor: pointer; transition: all var(--tr);
+      display: flex; align-items: flex-start; gap: 10px; max-width: 240px; text-align: left;
+    }
+    .mode-card:hover { border-color: var(--accent); }
+    .mode-card.active { border-color: var(--accent); background: var(--accent-dim); }
+    .mode-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; margin-top: 3px; transition: all var(--tr); display: flex; align-items: center; justify-content: center; }
+    .mode-card.active .mode-radio { border-color: var(--accent); background: var(--accent); }
+    .mode-card.active .mode-radio::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--bg); }
+    .mode-title { font-weight: 600; font-size: 0.97rem; color: var(--text); display: block; }
+    .mode-desc { font-size: 0.83rem; color: var(--muted); margin-top: 2px; display: block; }
+
+    /* ===== GENERATE ===== */
+    .gen-section { text-align: center; padding: 8px 0 20px; }
+    .error-box { background: rgba(220,53,69,0.08); border: 1px solid rgba(220,53,69,0.3); border-radius: 9px; padding: 12px 18px; color: var(--red); font-size: 0.96rem; margin-bottom: 18px; display: none; text-align: left; }
+    .error-box.show { display: block; animation: fadeIn 0.2s ease; }
+    .gen-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .gen-btn {
+      font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600;
+      letter-spacing: 0.04em; padding: 16px 44px; border: none; border-radius: 50px;
+      cursor: pointer; transition: all var(--tr);
+    }
+    .gen-btn.primary { background: var(--accent); color: var(--bg); box-shadow: 0 4px 26px var(--accent-glow); }
+    .gen-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 10px 36px var(--accent-glow); }
+    .gen-btn.secondary { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    .gen-btn.secondary:hover { background: var(--accent-dim); transform: translateY(-2px); }
+    .gen-btn:active { transform: translateY(-1px) !important; }
+    .gen-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+    /* ===== OUTPUT SECTION ===== */
+    .output-section { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 56px; display: none; }
+    .output-section.show { display: block; animation: riseUp 0.42s cubic-bezier(0.2,0,0,1); }
+    @keyframes riseUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Tabs */
+    .tab-bar { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); }
+    .tab-btn {
+      padding: 13px 22px; font-family: 'Crimson Text', serif; font-size: 1rem;
+      color: var(--muted); cursor: pointer; border: none; background: transparent;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      transition: all var(--tr); display: flex; align-items: center; gap: 7px;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Prompt tab */
+    .prompt-header { padding: 13px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface); }
+    .prompt-label { font-family: 'JetBrains Mono', monospace; font-size: 0.77rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+    .prompt-label span { color: var(--accent); margin-right: 5px; }
+    .prompt-body { padding: 26px; }
+    .prompt-text { font-family: 'Crimson Text', serif; font-size: 1.15rem; line-height: 1.85; }
+    .prompt-text b { color: var(--accent); font-weight: 600; }
+    .prompt-foot { padding: 13px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--surface); flex-wrap: wrap; gap: 8px; }
+    .foot-note { font-size: 0.83rem; color: var(--muted); font-style: italic; }
+
+    /* AI Sentences tab */
+    .ai-header { padding: 13px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface); flex-wrap: wrap; gap: 8px; }
+    .ai-label { font-family: 'JetBrains Mono', monospace; font-size: 0.77rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+    .ai-label span { color: var(--accent); margin-right: 5px; }
+    .ai-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ai-body { padding: 20px; }
+
+    /* Loading */
+    .loading-state { text-align: center; padding: 52px 20px; }
+    .loading-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; }
+    .loading-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: dotPulse 1.4s infinite ease-in-out; }
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dotPulse { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+    .loading-msg { font-family: 'Playfair Display', serif; font-style: italic; color: var(--muted); font-size: 1.05rem; }
+
+    /* Sentence cards */
+    .sentence-cards { display: flex; flex-direction: column; gap: 14px; }
+    .sentence-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 18px 20px; transition: all var(--tr); animation: cardIn 0.3s ease both;
+    }
+    .sentence-card:hover { border-color: var(--accent); }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .card-top { display: flex; align-items: flex-start; gap: 14px; }
+    .card-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--accent); opacity: 0.3; line-height: 1; flex-shrink: 0; min-width: 36px; }
+    .card-body { flex: 1; }
+    .card-sentence { font-family: 'Crimson Text', serif; font-size: 1.12rem; line-height: 1.75; color: var(--text); }
+    .card-sentence em { color: var(--accent); font-style: normal; font-weight: 600; }
+    .card-foot { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .card-tag { background: var(--accent-dim); border: 1px solid var(--border); border-radius: 50px; padding: 2px 11px; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: var(--muted); }
+    .card-tag.word-tag { color: var(--accent); border-color: var(--accent); }
+    .card-copy { margin-left: auto; background: transparent; border: 1px solid var(--border); border-radius: 50px; padding: 4px 14px; font-family: 'Crimson Text', serif; font-size: 0.88rem; color: var(--muted); cursor: pointer; transition: all var(--tr); }
+    .card-copy:hover { border-color: var(--accent); color: var(--accent); }
+    .card-copy.done { border-color: var(--green); color: var(--green); }
+
+    /* AI error */
+    .ai-error { background: rgba(220,53,69,0.08); border: 1px solid rgba(220,53,69,0.3); border-radius: 9px; padding: 16px 20px; color: var(--red); font-size: 0.96rem; }
+
+    /* Common buttons */
+    .btn-sm {
+      font-family: 'Crimson Text', serif; font-size: 0.93rem; padding: 6px 17px;
+      border-radius: 50px; cursor: pointer; transition: all var(--tr); display: flex; align-items: center; gap: 5px;
+    }
+    .btn-accent { background: var(--accent); color: var(--bg); border: none; }
+    .btn-accent:hover { opacity: 0.85; }
+    .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+    .btn-outline:hover { background: var(--accent-dim); }
+    .btn-ghost { background: transparent; border: 1px solid var(--faint); color: var(--muted); }
+    .btn-ghost:hover { border-color: var(--text); color: var(--text); }
+
+    /* ===== HISTORY ===== */
+    .history-section { margin-bottom: 60px; display: none; }
+    .history-section.show { display: block; }
+    .history-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .history-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--muted); }
+    .history-list { display: flex; flex-direction: column; gap: 10px; }
+    .history-item {
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer;
+      transition: all var(--tr);
+    }
+    .history-item:hover { border-color: var(--accent); }
+    .history-meta { flex: 1; }
+    .history-words { font-size: 0.88rem; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+    .history-topics { font-size: 0.85rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px; }
+    .history-time { font-size: 0.78rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; flex-shrink: 0; }
+
+    /* ===== FOOTER ===== */
+    footer { border-top: 1px solid var(--divider); padding: 24px 0; text-align: center; font-style: italic; color: var(--muted); font-size: 0.93rem; }
+    footer span { color: var(--accent); font-style: normal; }
+
+    /* ===== UTILS ===== */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 640px) {
+      .logo-title { font-size: 1.85rem; }
+      .section-title { font-size: 1.28rem; }
+      .topics-grid { grid-template-columns: 1fr; }
+      .c-val { font-size: 4.2rem; }
+      .prompt-text { font-size: 1.02rem; }
+      .word-chip .tip { display: none; }
+      .mode-options { flex-direction: column; align-items: center; }
+      .mode-card { max-width: 100%; width: 100%; }
+      .gen-buttons { flex-direction: column; align-items: center; }
+      .gen-btn { width: 100%; max-width: 340px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div>
+        <div class="logo-title">Sen Lab - ইংরেজি শেখায় নতুন মাত্রা</div>
+        <div class="logo-sub">A tool to enhance English writing · Especially for BCS &amp; Bank Exam </div>
+      </div>
+<div class="header-right">
+  <div id="visitorWidget">
+    <span class="vc-dot"></span>
+    <span id="vcTotal">…</span>
+    <span>views</span>
+  </div>
+  <button class="btn-pill" onclick="toggleTheme()">
+    <span id="themeIcon">☀️</span> <span id="themeLabel">Day Mode</span>
+  </button>
+</div>
+
+<div class="logo-title" style="
+    font-family: 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+    font-size: 0.85rem;
+    color: inherit;
+    background: rgba(128, 128, 128, 0.1);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    opacity: 0.85;
+">
+    &gt; Copy output, then paste into any AI (Gemini, ChatGPT, or Claude)
+</div>
+
+
+    </div>
+  </header>
+
+  <!-- STEP 1: WORDS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="step-badge">1</div>
+      <h2 class="section-title">Select Vocabulary Words</h2>
+      <div class="section-meta">
+        <div class="section-count" id="wordCount"><em>0</em> selected</div>
+        <span class="act" onclick="selectAllWords()">All</span>
+        <span class="act" onclick="clearWords()">Clear</span>
+      </div>
+    </div>
+    <input type="text" class="search-box" placeholder="🔍  Search words or synonyms…" oninput="filterWords(this.value)" id="wordSearch" />
+    <div class="words-grid" id="wordsGrid"></div>
+    <div class="word-detail-panel" id="wordDetailPanel">
+      <div class="wdp-title" id="wdpTitle"></div>
+      <div class="wdp-alts" id="wdpAlts"></div>
+      <div class="wdp-bengali" id="wdpBengali"></div>
+    </div>
+    <div class="preview-row" id="wordPreview"></div>
+  </section>
+
+  <div class="ornament">· · · ✦ · · ·</div>
+
+  <!-- STEP 2: TOPICS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="step-badge">2</div>
+      <h2 class="section-title">Select Topics</h2>
+      <div class="section-meta">
+        <div class="section-count" id="topicCount"><em>0</em> selected</div>
+        <span class="act" onclick="selectAllTopics()">All</span>
+        <span class="act" onclick="clearTopics()">Clear</span>
+      </div>
+    </div>
+    <input type="text" class="search-box" placeholder="🔍  Search topics…" oninput="filterTopics(this.value)" id="topicSearch" />
+    <div class="topics-grid" id="topicsGrid"></div>
+    <div class="preview-row" id="topicPreview"></div>
+  </section>
+
+  <div class="ornament">· · · ✦ · · ·</div>
+
+  <!-- STEP 3: COUNT + MODE -->
+  <section class="section">
+    <div class="section-header">
+      <div class="step-badge">3</div>
+      <h2 class="section-title">Sentences &amp; Mode</h2>
+    </div>
+    <div class="counter-wrap">
+      <div class="counter-question">How many sentences shall be crafted?</div>
+      <div class="counter-row">
+        <button class="c-btn" onclick="changeCount(-1)">−</button>
+        <div class="c-val" id="cVal">3</div>
+        <button class="c-btn" onclick="changeCount(1)">+</button>
+      </div>
+      <div class="mode-options">
+        <div class="mode-card active" id="modeFree" onclick="setMode('free')">
+          <div class="mode-radio"></div>
+          <div>
+            <span class="mode-title">Free Pairing</span>
+            <span class="mode-desc">AI picks the best word-topic combination for each sentence.</span>
+          </div>
+        </div>
+        <div class="mode-card" id="modeStrict" onclick="setMode('strict')">
+          <div class="mode-radio"></div>
+          <div>
+            <span class="mode-title">Strict Pairing</span>
+            <span class="mode-desc">Word 1 → Topic 1, Word 2 → Topic 2 … in exact order.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pairing-panel" id="pairingPanel">
+      <div class="pairing-panel-title">✦ Sentence Pairing Map</div>
+      <div id="pairingList"></div>
+      <div class="pair-warn" id="pairWarn"></div>
+    </div>
+  </section>
+
+  <div class="ornament">· · · ✦ · · ·</div>
+
+  <!-- GENERATE -->
+  <section class="gen-section">
+    <div class="error-box" id="errorBox"></div>
+    <div class="gen-buttons">
+      <button class="gen-btn secondary" onclick="generatePromptOnly()">Copy Output for AI </button>
+    </div>
+  </section>
+
+  <!-- OUTPUT SECTION -->
+  <section class="output-section" id="outputSection">
+    <div class="tab-bar">
+<button class="tab-btn active" id="tabPrompt" onclick="switchTab('prompt')"><span class="tab-dot"></span> Prompt Text</button>
+    </div>
+
+
+    <!-- PROMPT TAB -->
+   <div class="tab-pane active" id="panePrompt">
+      <div class="prompt-header">
+        <div class="prompt-label"><span>⟡</span> Generated Prompt</div>
+        <button class="btn-sm btn-outline" id="copyBtn" onclick="copyPrompt()">⎘ &nbsp;Copy</button>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-text" id="outputPrompt"></div>
+      </div>
+      <div class="prompt-foot">
+        <div class="foot-note">Paste into ChatGPT, Claude, Gemini, or any AI assistant.</div>
+        <button class="btn-sm btn-ghost" onclick="resetAll()">✕ Reset All</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="history-section" id="historySection">
+    <div class="history-header">
+      <div class="history-title">⟐ Recent Sessions</div>
+      <span class="act" onclick="clearHistory()">Clear history</span>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </section>
+<footer style="
+    padding: 2.5rem 1rem; 
+    border-top: 1px solid var(--border-color, #e0e0e0); 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    line-height: 1.8; 
+    color: var(--text-main, #555); 
+    text-align: center;
+">
+    <div style="margin-bottom: 0.5rem;">
+        <span>এই ওয়েবসাইটে 
+            <a href="https://www.facebook.com/share/1H3NY11Qd5/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               style="color: #2563eb; text-decoration: none; font-weight: 500; border-bottom: 1px dashed #2563eb;">
+               সুমন সেন
+            </a>-এর ফেসবুক পোস্টের তথ্য ব্যবহার করা হয়েছে। তিনি বর্তমানে বাংলাদেশ ব্যাংকে সহকারী পরিচালক পদে কর্মরত আছেন।
+        </span>
+    </div>
+    
+
+</footer>
+
+
+
+
+</div>
+
+<script>
+  // ======================== VISITOR COUNTER ========================
+(function initVisitorCounter() {
+  const KEY = 'senlab-vocab-prompt-counter-v1'; // Unique key for this specific app
+  const SESSION_KEY = 'senlab_vocab_session_active'; 
+  const el = document.getElementById('vcTotal');
+  if (!el) return;
+
+  function rollUp(target) {
+    let dur = 1400, t0 = performance.now();
+    function tick(now) {
+      let p = Math.min((now - t0) / dur, 1);
+      let e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * e).toLocaleString();
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toLocaleString();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const counted = sessionStorage.getItem(SESSION_KEY);
+  const endpoint = counted
+    ? 'https://countapi.mileshilliard.com/api/v1/get/' + KEY
+    : 'https://countapi.mileshilliard.com/api/v1/hit/' + KEY;
+
+  fetch(endpoint)
+    .then(r => r.json())
+    .then(d => {
+      if (!counted) sessionStorage.setItem(SESSION_KEY, '1');
+      rollUp(parseInt(d.value) || 0);
+    })
+    .catch(() => { el.textContent = '—'; });
+})();
+
+// ======================== DATA ========================
+const WORDS = [
+  { id: 1,  base: "Important",        alts: ["Salient", "Crucial", "Pivotal"],                                       bengali: "গুরুত্বপূর্ণ — formal alternatives for academic use" },
+  { id: 2,  base: "Say",              alts: ["Assert", "Claim", "Cite"],                                             bengali: "বলা — formal verbs for reported speech" },
+  { id: 3,  base: "Environment",      alts: ["Atmosphere", "Surroundings", "Milieu"],                                bengali: "পরিবেশ — contextual synonyms" },
+  { id: 4,  base: "Problem",          alts: ["Challenge", "Obstacle", "Complication", "Setback", "Imbroglio"],       bengali: "সমস্যা — formal variants for critical writing" },
+  { id: 5,  base: "Increase",         alts: ["Surge", "Skyrocket", "Proliferate", "Loom Large"],                    bengali: "বৃদ্ধি পাওয়া — especially in economic contexts" },
+  { id: 6,  base: "Decrease",         alts: ["Plunge", "Plummet", "Slump", "Dwindle", "Curtail"],                   bengali: "হ্রাস পাওয়া — economic/financial contexts" },
+  { id: 7,  base: "Firstly",          alts: ["To Begin With", "First and Foremost", "Initially"],                   bengali: "প্রথমত — discourse markers for essay structure" },
+  { id: 8,  base: "Suggestion",       alts: ["Recommendation", "Proposition"],                                      bengali: "পরামর্শ — formal policy-writing terms" },
+  { id: 9,  base: "Describe",         alts: ["Delineate", "Depict", "Illustrate", "Portray"],                       bengali: "বর্ণনা করা — academic descriptive verbs" },
+  { id: 10, base: "Country",          alts: ["Nation", "Territory", "Realm", "Land"],                               bengali: "দেশ — formal synonyms for geopolitical writing" },
+  { id: 11, base: "People",           alts: ["The Populace", "Stakeholders", "Constituents", "Residents"],          bengali: "মানুষ/জনগণ — academic references to society" },
+  { id: 12, base: "Come From",        alts: ["Derive From", "Stem From", "Arise From", "Emanate From"],             bengali: "উৎপত্তি হওয়া — causal academic expressions" },
+  { id: 13, base: "Beautiful",        alts: ["Scenic Splendor", "Breathtaking", "Picturesque", "Vista"],            bengali: "সুন্দর — vivid descriptive alternatives" },
+  { id: 14, base: "Proper",           alts: ["Appropriate", "Compliant", "Commensurate"],                           bengali: "যথাযথ — used in policy contexts" },
+  { id: 15, base: "Feature",          alts: ["Characteristic", "Trait", "Attribute"],                               bengali: "বৈশিষ্ট্য — analytical descriptors" },
+  { id: 16, base: "Necessary",        alts: ["Prerequisite", "Requisite", "Inherent"],                              bengali: "প্রয়োজনীয় — formal requirement language" },
+  { id: 17, base: "War",              alts: ["Conflict", "Skirmish", "Strife"],                                     bengali: "যুদ্ধ — geopolitical vocabulary" },
+  { id: 18, base: "Relation",         alts: ["Alliance", "Ties", "Nexus"],                                          bengali: "সম্পর্ক — diplomatic/bilateral terms" },
+  { id: 19, base: "Advantage",        alts: ["Leverage", "Virtue", "Edge"],                                         bengali: "সুবিধা — strategic analysis terms" },
+  { id: 20, base: "Disadvantage",     alts: ["Drawback", "Detriment", "Pitfall", "Constraint"],                     bengali: "অসুবিধা — risk/critique vocabulary" },
+  { id: 21, base: "Reason",           alts: ["Catalyst", "Rationale", "Premise", "Determinant"],                    bengali: "কারণ — analytical cause-language" },
+  { id: 22, base: "Temporary",        alts: ["Provisional", "Ad Hoc", "Transient", "Ephemeral", "Transitory"],      bengali: "সাময়িক — time-limited policy terms" },
+  { id: 23, base: "Condition",        alts: ["Status", "Status Quo", "Circumstance"],                               bengali: "অবস্থা — contextual state descriptors" },
+  { id: 24, base: "Society",          alts: ["Community", "The Populace", "Civil Society"],                         bengali: "সমাজ — sociological vocabulary" },
+  { id: 25, base: "Supported By",     alts: ["Fortified By", "Collateralized By", "Backed By", "Buttressed By"],    bengali: "সমর্থিত — evidence-linking phrases" },
+  { id: 26, base: "Control",          alts: ["Curb", "Tame", "Subdue", "Rein In"],                                  bengali: "নিয়ন্ত্রণ করা — regulatory language" },
+  { id: 27, base: "Step",             alts: ["Initiative", "Maneuver", "Threshold"],                                bengali: "পদক্ষেপ — action-oriented vocabulary" },
+  { id: 28, base: "Understand",       alts: ["Comprehend", "Fathom", "Discern", "Perceive", "Cognize"],             bengali: "বোঝা — cognitive action verbs" },
+  { id: 29, base: "Uncertainties",    alts: ["Capriciousness", "Fluctuations", "Ambiguities", "Dubiety"],           bengali: "অনিশ্চয়তা — analytical hedging terms" },
+  { id: 30, base: "Prepare",          alts: ["Orchestrate", "Devise", "Equip", "Fortify"],                         bengali: "প্রস্তুতি নেওয়া — strategic planning verbs" },
+  { id: 31, base: "Difficult",        alts: ["Demanding", "Perplexing", "Burdensome"],                              bengali: "কঠিন — formal difficulty descriptors" },
+  { id: 32, base: "Dealing With",     alts: ["Grappling With", "Navigating", "Contending With"],                    bengali: "মোকাবেলা করা — facing challenges" },
+  { id: 33, base: "In The Middle Of", alts: ["Amid", "Amidst", "In The Throes Of"],                                bengali: "মাঝে/মধ্যে — contextual prepositions" },
+  { id: 34, base: "Effect",           alts: ["Repercussion", "Ramification", "Implication"],                        bengali: "প্রভাব — consequence language" },
+  { id: 35, base: "Result",           alts: ["Consequence", "Aftermath", "Ripple Effect"],                          bengali: "ফলাফল — outcome vocabulary" },
+  { id: 36, base: "Attempt",          alts: ["Strive", "Endeavor", "Aspire"],                                       bengali: "চেষ্টা করা — effort/goal verbs" },
+  { id: 37, base: "Damage",           alts: ["Impair", "Jeopardize", "Undermine"],                                  bengali: "ক্ষতি করা — harm/risk verbs" },
+  { id: 38, base: "Stop",             alts: ["Cease", "Halt", "Discontinue"],                                       bengali: "থামানো — cessation verbs" },
+  { id: 39, base: "Change",           alts: ["Shift", "Evolve", "Transform"],                                       bengali: "পরিবর্তন — transition vocabulary" },
+  { id: 40, base: "Dream",            alts: ["Envisage", "Envision", "Aspire"],                                     bengali: "স্বপ্ন দেখা — visionary language" },
+  { id: 41, base: "Hidden",           alts: ["Clandestine", "Surreptitious", "Concealed"],                          bengali: "লুকানো — covert/secretive terms" },
+  { id: 42, base: "Dormant",          alts: ["Latent", "Hibernating", "Quiescent"],                                 bengali: "সুপ্ত/নিষ্ক্রিয় — inactive state descriptors" },
+  { id: 43, base: "Skill",            alts: ["Aptness", "Dexterity", "Acumen"],                                     bengali: "দক্ষতা — competency vocabulary" },
+  { id: 44, base: "Strengthen",       alts: ["Bolster", "Reinforce", "Fortify", "Boost"],                           bengali: "শক্তিশালী করা — enhancement verbs" },
+  { id: 45, base: "Negative",         alts: ["Dire", "Devastating", "Catastrophic"],                                bengali: "নেতিবাচক — critical impact descriptors" },
+  { id: 46, base: "Admit",            alts: ["Acknowledge", "Concede", "Recognize"],                                bengali: "স্বীকার করা — formal acceptance verbs" },
+  { id: 47, base: "Deficiency",       alts: ["Lack", "Scarcity", "Devoid Of", "Paucity"],                          bengali: "ঘাটতি/অভাব — shortage vocabulary" },
+  { id: 48, base: "Fascinating",      alts: ["Captivating", "Intriguing", "Spellbinding"],                          bengali: "মনোমুগ্ধকর — engagement descriptors" },
+  { id: 49, base: "Story",            alts: ["Narrative", "Account", "Chronicle"],                                  bengali: "গল্প/বিবরণ — written discourse terms" },
+  { id: 50, base: "Activities",       alts: ["Pursuits", "Tasks", "Undertakings"],                                  bengali: "কার্যক্রম — operational vocabulary" },
+];
+
+const TOPICS = [
+  { id: 1,  title: "Geopolitical Tensions (Iran-Israel-USA): Assessing the Ripple Effects on Bangladesh's Economy" },
+  { id: 2,  title: "LDC Graduation: Unlocking Potential and Navigating the Path Ahead" },
+  { id: 3,  title: "Smart Transformation of the Rural Economy: Farmer Cards and the Future of Bangladesh" },
+  { id: 4,  title: "Non-Performing Loans (NPLs): Socio-Economic Impact and Remedial Measures" },
+  { id: 5,  title: "The Fifth Industrial Revolution (5IR): Redefining the Human-Machine Synergy" },
+  { id: 6,  title: "Cybersecurity in Banking: Safeguarding Digital Assets in a Connected World" },
+  { id: 7,  title: "Transition to a Cashless Bangladesh: Opportunities and Strategic Challenges" },
+  { id: 8,  title: "The Impact of the Gulf Crisis on the Agricultural Sector" },
+  { id: 9,  title: "Energy Security in Bangladesh: Current Landscape and Future Sustainability" },
+  { id: 10, title: "The Fourth Industrial Revolution (4IR) in the Banking Sector" },
+  { id: 11, title: "Family Cards: Shifting the Development Focus from Individuals to Households" },
+  { id: 12, title: "The New Government of Bangladesh: Key Challenges and Strategic Solutions" },
+  { id: 13, title: "Women in Financial Inclusion: Empowering the Unbanked Population" },
+  { id: 14, title: "Circular Economy: A Sustainable Paradigm Shift for Bangladesh" },
+  { id: 15, title: "Energy Crisis and Banking Fragility: Assessing the Erosion of Economic Growth" },
+  { id: 16, title: "Artificial Intelligence (AI): Balancing Innovation with Ethical Risks" },
+  { id: 17, title: "Monorail Integration in Urban Transit: Potential and Implementation Hurdles" },
+  { id: 18, title: "The Impact of Global Warming on Bangladesh: Vulnerabilities and Resilience" },
+  { id: 19, title: "Bangladesh's Journey Toward a Green Economy: Successes and Obstacles" },
+  { id: 20, title: "Bank Mergers: Prospects, Risks, and Implications for the Financial Sector" },
+  { id: 21, title: "Non-Performing Loans (NPLs): Socio-Economic Impact and Recovery Strategies" },
+  { id: 22, title: "Monetary Policy and Inflation Control: Navigating Economic Stability" },
+  { id: 23, title: "Foreign Exchange Reserve Management: Currency Devaluation and the Crawling Peg System" },
+  { id: 24, title: "Corporate Governance in Banking: Strengthening Accountability and Transparency" },
+  { id: 25, title: "Women Empowerment through Financial Inclusion: Bridging the Gender Gap" },
+  { id: 26, title: "Export Diversification: Reducing Over-dependence on the RMG Sector" },
+  { id: 27, title: "Blue Economy: Potential of Marine Resources for Sustainable Development" },
+  { id: 28, title: "Remittance Inflow vs. Informal Channels: Strategies to Incentivize Legal Channels" },
+  { id: 29, title: "Offshore Banking in Bangladesh: Opportunities and Regulatory Frameworks" },
+  { id: 30, title: "Fiscal Policy and Revenue Mobilization: Challenges of a Low Tax-to-GDP Ratio" },
+];
+
+// ======================== STATE ========================
+let selWords   = new Set();
+let selTopics  = new Set();
+let count      = 3;
+let isDark     = true;
+let mode       = 'free';   // 'free' | 'strict'
+let plainPrompt = '';
+let lastSentences = [];
+let openWordId = null;
+let history    = [];       // session-only
+
+// ======================== INIT ========================
+(function init() {
+  renderWords(WORDS);
+  renderTopics(TOPICS);
+})();
+
+// ======================== RENDER WORDS ========================
+function renderWords(list) {
+  document.getElementById('wordsGrid').innerHTML = list.map(w => `
+    <div class="word-chip ${selWords.has(w.id) ? 'selected' : ''}"
+         onclick="toggleWord(${w.id})"
+         data-id="${w.id}">
+      <span class="chip-num">${w.id}.</span>${w.base}
+      <div class="tip">
+        <div class="tip-alts">→ ${w.alts.join(' · ')}</div>
+        <div class="tip-bengali">${w.bengali}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderTopics(list) {
+  document.getElementById('topicsGrid').innerHTML = list.map(t => `
+    <div class="topic-card ${selTopics.has(t.id) ? 'selected' : ''}"
+         onclick="toggleTopic(${t.id})" data-id="${t.id}">
+      <span class="topic-num">${String(t.id).padStart(2,'0')}</span>
+      <span class="topic-text">${t.title}</span>
+      <span class="topic-check">${selTopics.has(t.id) ? '✓' : ''}</span>
+    </div>`).join('');
+}
+
+// ======================== TOGGLE ========================
+function toggleWord(id) {
+  // Mobile: also show detail panel
+  if (openWordId === id) {
+    openWordId = null;
+    document.getElementById('wordDetailPanel').classList.remove('open');
+  } else {
+    const w = WORDS.find(x => x.id === id);
+    if (w) {
+      openWordId = id;
+      document.getElementById('wdpTitle').textContent = `${w.base} → ${w.alts.join(', ')}`;
+      document.getElementById('wdpAlts').textContent = 'Formal synonyms: ' + w.alts.join(' · ');
+      document.getElementById('wdpBengali').textContent = w.bengali;
+      document.getElementById('wordDetailPanel').classList.add('open');
+    }
+  }
+  selWords.has(id) ? selWords.delete(id) : selWords.add(id);
+  syncWordUI();
+  updatePairingPreview();
+}
+
+function toggleTopic(id) {
+  selTopics.has(id) ? selTopics.delete(id) : selTopics.add(id);
+  syncTopicUI();
+  updatePairingPreview();
+}
+
+function syncWordUI() {
+  document.querySelectorAll('.word-chip').forEach(el => {
+    const id = +el.dataset.id;
+    el.classList.toggle('selected', selWords.has(id));
+  });
+  document.getElementById('wordCount').innerHTML = `<em>${selWords.size}</em> selected`;
+  const sel = WORDS.filter(w => selWords.has(w.id));
+  document.getElementById('wordPreview').innerHTML =
+    sel.map(w => `<span class="preview-tag">${w.base}</span>`).join('');
+}
+
+function syncTopicUI() {
+  document.querySelectorAll('.topic-card').forEach(el => {
+    const id = +el.dataset.id;
+    const on = selTopics.has(id);
+    el.classList.toggle('selected', on);
+    el.querySelector('.topic-check').textContent = on ? '✓' : '';
+  });
+  document.getElementById('topicCount').innerHTML = `<em>${selTopics.size}</em> selected`;
+  const sel = TOPICS.filter(t => selTopics.has(t.id));
+  document.getElementById('topicPreview').innerHTML =
+    sel.map(t => `<span class="preview-tag">${t.title.split(':')[0].trim()}</span>`).join('');
+}
+
+// ======================== SELECT ALL / CLEAR ========================
+function selectAllWords()  { WORDS.forEach(w => selWords.add(w.id)); syncWordUI(); updatePairingPreview(); }
+function clearWords()      { selWords.clear(); syncWordUI(); updatePairingPreview(); }
+function selectAllTopics() { TOPICS.forEach(t => selTopics.add(t.id)); syncTopicUI(); updatePairingPreview(); }
+function clearTopics()     { selTopics.clear(); syncTopicUI(); updatePairingPreview(); }
+
+// ======================== FILTER ========================
+function filterWords(q) {
+  q = q.toLowerCase();
+  renderWords(WORDS.filter(w => w.base.toLowerCase().includes(q) || w.alts.some(a => a.toLowerCase().includes(q))));
+  syncWordUI();
+}
+function filterTopics(q) {
+  q = q.toLowerCase();
+  renderTopics(TOPICS.filter(t => t.title.toLowerCase().includes(q)));
+  syncTopicUI();
+}
+
+// ======================== COUNTER ========================
+function changeCount(d) {
+  count = Math.max(1, Math.min(20, count + d));
+  const el = document.getElementById('cVal');
+  el.textContent = count;
+  el.classList.add('bump');
+  setTimeout(() => el.classList.remove('bump'), 130);
+  updatePairingPreview();
+}
+
+// ======================== MODE ========================
+function setMode(m) {
+  mode = m;
+  document.getElementById('modeFree').classList.toggle('active', m === 'free');
+  document.getElementById('modeStrict').classList.toggle('active', m === 'strict');
+  updatePairingPreview();
+}
+
+// ======================== PAIRING PREVIEW ========================
+function updatePairingPreview() {
+  const panel = document.getElementById('pairingPanel');
+  if (mode !== 'strict') { panel.classList.remove('open'); return; }
+  const wList = WORDS.filter(w => selWords.has(w.id));
+  const tList = TOPICS.filter(t => selTopics.has(t.id));
+  if (!wList.length || !tList.length) { panel.classList.remove('open'); return; }
+  panel.classList.add('open');
+  const n = count;
+  const rows = Array.from({length: n}, (_, i) => ({
+    word:  wList[i % wList.length].base,
+    alts:  wList[i % wList.length].alts[0],
+    topic: tList[i % tList.length].title.split(':')[0].trim(),
+  }));
+  document.getElementById('pairingList').innerHTML = rows.map((r, i) => `
+    <div class="pair-row">
+      <span class="pair-i">${String(i+1).padStart(2,'0')}</span>
+      <span class="pair-word">${r.word} <span style="opacity:.5;font-size:.8em;">(→${r.alts})</span></span>
+      <span class="pair-arr">→</span>
+      <span class="pair-topic">${r.topic}</span>
+    </div>`).join('');
+  const warn = wList.length !== tList.length
+    ? `Note: ${wList.length} word(s) and ${tList.length} topic(s) selected — shorter list will cycle.`
+    : '';
+  document.getElementById('pairWarn').textContent = warn;
+}
+
+// ======================== BUILD PROMPT ========================
+function buildPromptData() {
+  const wList = WORDS.filter(w => selWords.has(w.id));
+  const tList = TOPICS.filter(t => selTopics.has(t.id));
+
+  const wPlain = wList.map(w => `${w.base} (synonyms: ${w.alts.join(', ')})`).join('; ');
+  const tPlain = tList.map((t, i) => `${i+1}. ${t.title}`).join('\n');
+
+  const pairInstr = mode === 'strict'
+    ? `STRICT PAIRING: The ${count} sentences must follow this exact pairing in order — Word[i] → Topic[i], cycling if counts differ.`
+    : `FREE PAIRING: Choose the most contextually fitting word-topic combination for each sentence.`;
+
+  const plain = `Create ${count} formal, academically sophisticated sentences in English.
+
+Vocabulary words (use formal synonyms in the actual sentence, not the base word):
+${wPlain}
+
+Topics to address:
+${tPlain}
+
+Pairing instruction: ${pairInstr}
+
+Requirements:
+- Each sentence must exhibit graduate-level English complexity and precision.
+- Use formal synonyms from the list, not the plain base words.
+- Draw structure and nuance from academic journals, broadsheet newspapers, and authoritative dictionaries.
+- Each sentence should be self-contained, analytically grounded, and contextually rich.
+- Right after each sectence, give bengali translation for each respectively.`;
+
+  // HTML version with bold markup
+  const wHTML = wList.map(w => `<b>${w.base}</b> (e.g. ${w.alts.join(', ')})`).join('; ');
+  const tHTML = tList.map((t, i) => `<b>${i+1}.</b> ${t.title}`).join('<br>');
+  const html = `Create <b>${count}</b> formal, academically sophisticated sentences in English.<br><br>
+<b>Vocabulary words</b> (use formal synonyms): ${wHTML}<br><br>
+<b>Topics:</b><br>${tHTML}<br><br>
+<b>Pairing:</b> ${pairInstr.replace(/</g,'&lt;').replace(/>/g,'&gt;')}<br><br>
+Draw structure from academic journals, broadsheet newspapers, and authoritative dictionaries. Graduate-level English throughout.
+Right after each sectence, give bengali translation for each respectively.`;
+
+  return { plain, html, wList, tList };
+}
+
+// ======================== VALIDATE ========================
+function validate() {
+  const err = document.getElementById('errorBox');
+  if (!selWords.size && !selTopics.size) {
+    err.textContent = '⚠  Please select at least one word (Step 1) and one topic (Step 2).';
+    err.classList.add('show'); return false;
+  }
+  if (!selWords.size) {
+    err.textContent = '⚠  Please select at least one vocabulary word from Step 1.';
+    err.classList.add('show'); return false;
+  }
+  if (!selTopics.size) {
+    err.textContent = '⚠  Please select at least one topic from Step 2.';
+    err.classList.add('show'); return false;
+  }
+  err.classList.remove('show');
+  return true;
+}
+
+// ======================== PROMPT ONLY ========================
+function generatePromptOnly() {
+  if (!validate()) return;
+  const { plain, html } = buildPromptData();
+  plainPrompt = plain;
+  document.getElementById('outputPrompt').innerHTML = html;
+  showOutput();
+  switchTab('prompt');
+}
+
+// ======================== AI GENERATION ========================
+async function generateWithAI() {
+  if (!validate()) return;
+  const { plain, html, wList, tList } = buildPromptData();
+  plainPrompt = plain;
+  document.getElementById('outputPrompt').innerHTML = html;
+
+  // Show output, switch to AI tab
+  showOutput();
+  switchTab('ai');
+
+  // Disable button, show loading
+  const btn = document.getElementById('btnAI');
+  btn.disabled = true;
+  document.getElementById('btnRegenerate').style.display = 'none';
+  document.getElementById('btnCopyAll').style.display = 'none';
+  document.getElementById('btnExportSentences').style.display = 'none';
+  document.getElementById('aiCountLabel').textContent = '…';
+  document.getElementById('aiBody').innerHTML = `
+    <div class="loading-state">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+      <div class="loading-msg">Composing ${count} formal sentence${count > 1 ? 's' : ''} with Claude AI…</div>
+    </div>`;
+
+  // Build strict pairing instruction for API
+  const pairingNote = mode === 'strict'
+    ? `STRICT PAIRING MODE: Generate exactly ${count} sentences. Sentence i must use word[i mod W] paired with topic[i mod T], cycling if needed.`
+    : `FREE MODE: Intelligently select the best word-topic pairing for each of the ${count} sentences.`;
+
+  const wordsForAPI = wList.map((w, i) => `W${i+1}: base="${w.base}", use one of: ${w.alts.join(', ')}`).join('\n');
+  const topicsForAPI = tList.map((t, i) => `T${i+1}: ${t.title}`).join('\n');
+
+  const userMessage = `You are helping a Bangladesh civil service (BCS/Bank) exam candidate practice formal English writing. Generate exactly ${count} formal, academically sophisticated sentence(s).
+
+VOCABULARY WORDS (DO NOT use base words — use the formal synonyms listed):
+${wordsForAPI}
+
+TOPICS:
+${topicsForAPI}
+
+PAIRING: ${pairingNote}
+
+Return ONLY a valid JSON array. No markdown, no preamble, no explanation. Each item must have:
+- "sentence": the complete formal sentence (string)
+- "base_word": the base word category used (e.g., "Important")
+- "synonym_used": the actual formal synonym used in the sentence (e.g., "Pivotal")
+- "topic_short": shortened topic title, max 45 characters
+
+Example format:
+[{"sentence":"...","base_word":"Important","synonym_used":"Pivotal","topic_short":"LDC Graduation"}]`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 4000,
+        system: "You are a formal academic English writing assistant. You always return ONLY valid JSON arrays as instructed, with no markdown code fences, no preamble, and no explanation. Your sentences reflect the style of The Economist, The Financial Times, and peer-reviewed academic journals.",
+        messages: [{ role: "user", content: userMessage }]
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.error) throw new Error(data.error.message || 'API error');
+
+    const raw = (data.content || []).map(b => b.text || '').join('').trim();
+    // Strip any accidental markdown
+    const clean = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/,'').trim();
+    const parsed = JSON.parse(clean);
+
+    if (!Array.isArray(parsed) || !parsed.length) throw new Error('Unexpected response format.');
+
+    lastSentences = parsed;
+    renderSentences(parsed);
+    saveToHistory(wList, tList, parsed);
+    document.getElementById('btnRegenerate').style.display = 'flex';
+    document.getElementById('btnCopyAll').style.display = 'flex';
+    document.getElementById('btnExportSentences').style.display = 'flex';
+    document.getElementById('aiCountLabel').textContent = parsed.length;
+
+  } catch (err) {
+    document.getElementById('aiBody').innerHTML = `
+      <div class="ai-error">
+        <strong>⚠ Generation Failed</strong><br>
+        ${err.message}<br><br>
+        <small>You can still use the "Prompt Text" tab to copy the prompt and paste it into any AI assistant.</small>
+      </div>`;
+    document.getElementById('aiCountLabel').textContent = '0';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ======================== RENDER SENTENCES ========================
+function renderSentences(sentences) {
+  document.getElementById('aiBody').innerHTML = `<div class="sentence-cards">${
+    sentences.map((s, i) => {
+      // Highlight the synonym in the sentence
+      let displaySentence = s.sentence || '';
+      if (s.synonym_used) {
+        const re = new RegExp(`(${escapeRe(s.synonym_used)})`, 'gi');
+        displaySentence = displaySentence.replace(re, '<em>$1</em>');
+      }
+      const delay = i * 0.07;
+      return `<div class="sentence-card" style="animation-delay:${delay}s">
+        <div class="card-top">
+          <div class="card-num">${String(i+1).padStart(2,'0')}</div>
+          <div class="card-body">
+            <div class="card-sentence">${displaySentence}</div>
+            <div class="card-foot">
+              ${s.synonym_used  ? `<span class="card-tag word-tag">✦ ${s.synonym_used}</span>` : ''}
+              ${s.base_word     ? `<span class="card-tag">← ${s.base_word}</span>` : ''}
+              ${s.topic_short   ? `<span class="card-tag">${s.topic_short}</span>` : ''}
+              <button class="card-copy btn-sm" onclick="copySentence(this, ${i})">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }).join('')
+  }</div>`;
+}
+
+function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+// ======================== COPY / EXPORT ========================
+function copyPrompt() {
+  navigator.clipboard.writeText(plainPrompt).catch(() => fallbackCopy(plainPrompt));
+  const btn = document.getElementById('copyBtn');
+  btn.innerHTML = '✓ Copied!';
+  setTimeout(() => btn.innerHTML = '⎘ &nbsp;Copy', 2200);
+}
+
+function copySentence(btn, idx) {
+  const text = lastSentences[idx]?.sentence || '';
+  navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  btn.textContent = '✓ Copied';
+  btn.classList.add('done');
+  setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 2000);
+}
+
+function copyAllSentences() {
+  const text = lastSentences.map((s, i) => `${i+1}. ${s.sentence}`).join('\n\n');
+  navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  const btn = document.getElementById('btnCopyAll');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✓ Copied!';
+  setTimeout(() => btn.innerHTML = orig, 2200);
+}
+
+function exportTxt() {
+  let content = 'VocabPrompt v2 — Export\n';
+  content += '='.repeat(50) + '\n\n';
+  if (lastSentences.length) {
+    content += 'GENERATED SENTENCES\n' + '-'.repeat(30) + '\n';
+    lastSentences.forEach((s, i) => {
+      content += `\n${i+1}. ${s.sentence}`;
+      if (s.synonym_used) content += `\n   [Synonym: ${s.synonym_used} ← ${s.base_word}]`;
+      if (s.topic_short)  content += `\n   [Topic: ${s.topic_short}]`;
+      content += '\n';
+    });
+    content += '\n' + '='.repeat(50) + '\n\n';
+  }
+  if (plainPrompt) {
+    content += 'PROMPT TEXT\n' + '-'.repeat(30) + '\n' + plainPrompt;
+  }
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `vocabprompt_${Date.now()}.txt`;
+  a.click();
+}
+
+function exportSentences() { exportTxt(); }
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+  document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+  document.body.removeChild(ta);
+}
+
+// ======================== TAB SWITCH ========================
+// ======================== TAB SWITCH ========================
+function switchTab(name) {
+  document.getElementById('tabAI')?.classList.toggle('active', name === 'ai');
+  document.getElementById('tabPrompt')?.classList.toggle('active', name === 'prompt');
+  document.getElementById('paneAI')?.classList.toggle('active', name === 'ai');
+  document.getElementById('panePrompt')?.classList.toggle('active', name === 'prompt');
+}
+
+
+// ======================== SHOW/HIDE OUTPUT ========================
+function showOutput() {
+  const sec = document.getElementById('outputSection');
+  sec.classList.add('show');
+  setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+
+// ======================== HISTORY ========================
+function saveToHistory(wList, tList, sentences) {
+  const entry = {
+    words: wList.map(w => w.base).join(', '),
+    topics: tList.map(t => t.title.split(':')[0]).join(' · '),
+    sentences,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  };
+  history.unshift(entry);
+  if (history.length > 5) history.pop();
+  renderHistory();
+}
+
+function renderHistory() {
+  const sec = document.getElementById('historySection');
+  if (!history.length) { sec.classList.remove('show'); return; }
+  sec.classList.add('show');
+  document.getElementById('historyList').innerHTML = history.map((h, i) => `
+    <div class="history-item" onclick="restoreHistory(${i})">
+      <div class="history-meta">
+        <div class="history-words">${h.words}</div>
+        <div class="history-topics">${h.topics}</div>
+      </div>
+      <div class="history-time">${h.time} · ${h.sentences.length} sentences</div>
+    </div>`).join('');
+}
+
+function restoreHistory(i) {
+  const h = history[i];
+  lastSentences = h.sentences;
+  renderSentences(h.sentences);
+  document.getElementById('aiCountLabel').textContent = h.sentences.length;
+  document.getElementById('btnCopyAll').style.display = 'flex';
+  document.getElementById('btnExportSentences').style.display = 'flex';
+  document.getElementById('btnRegenerate').style.display = 'flex';
+  showOutput();
+  switchTab('ai');
+}
+
+function clearHistory() {
+  history = [];
+  renderHistory();
+}
+
+// ======================== RESET ========================
+function resetAll() {
+  selWords.clear(); selTopics.clear();
+  count = 3; mode = 'free'; plainPrompt = ''; lastSentences = [];
+  document.getElementById('cVal').textContent = 3;
+  document.getElementById('wordSearch').value = '';
+  document.getElementById('topicSearch').value = '';
+  document.getElementById('wordDetailPanel').classList.remove('open');
+  document.getElementById('pairingPanel').classList.remove('open');
+  document.getElementById('modeFree').classList.add('active');
+  document.getElementById('modeStrict').classList.remove('active');
+  renderWords(WORDS); renderTopics(TOPICS);
+  syncWordUI(); syncTopicUI();
+  document.getElementById('outputSection').classList.remove('show');
+  document.getElementById('errorBox').classList.remove('show');
+  document.getElementById('btnRegenerate').style.display = 'none';
+  document.getElementById('btnCopyAll').style.display = 'none';
+  document.getElementById('btnExportSentences').style.display = 'none';
+  document.getElementById('aiBody').innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);font-style:italic;">Click "Generate Sentences (AI)" to create sentences using Claude AI.</div>';
+  document.getElementById('aiCountLabel').textContent = '0';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ======================== THEME ========================
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+  document.getElementById('themeIcon').textContent  = isDark ? '☀️' : '🌙';
+  document.getElementById('themeLabel').textContent = isDark ? 'Day Mode' : 'Night Mode';
+}
+</script>
+</body>
+</html>
