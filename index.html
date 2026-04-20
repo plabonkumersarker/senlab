@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sen Lab - ইংরেজি শেখায় নতুন মাত্রা</title>
+  <title>Sen Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -418,7 +418,7 @@
   <header>
     <div class="header-inner">
       <div>
-        <div class="logo-title">Sen Lab - ইংরেজি শেখায় নতুন মাত্রা</div>
+        <div class="logo-title">Sen Labত</div>
         <div class="logo-sub">A tool to enhance English writing · Especially for BCS &amp; Bank Exam </div>
       </div>
 <div class="header-right">
@@ -898,7 +898,7 @@ Requirements:
 - Use formal synonyms from the list, not the plain base words.
 - Draw structure and nuance from academic journals, broadsheet newspapers, and authoritative dictionaries.
 - Each sentence should be self-contained, analytically grounded, and contextually rich.
-- Right after each sectence, give bengali translation for each respectively.`;
+- Right after each sectence, give bengali translation for each respectively. Translation should be native and natural`;
 
   // HTML version with bold markup
   const wHTML = wList.map(w => `<b>${w.base}</b> (e.g. ${w.alts.join(', ')})`).join('; ');
@@ -908,7 +908,7 @@ Requirements:
 <b>Topics:</b><br>${tHTML}<br><br>
 <b>Pairing:</b> ${pairInstr.replace(/</g,'&lt;').replace(/>/g,'&gt;')}<br><br>
 Draw structure from academic journals, broadsheet newspapers, and authoritative dictionaries. Graduate-level English throughout.
-Right after each sectence, give bengali translation for each respectively.`;
+Right after each sectence, give bengali translation for each respectively. Translation should be native and natural`;
 
   return { plain, html, wList, tList };
 }
