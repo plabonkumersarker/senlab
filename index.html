@@ -893,12 +893,18 @@ ${tPlain}
 
 Pairing instruction: ${pairInstr}
 
-Requirements:
-- Each sentence must exhibit graduate-level English complexity and precision.
-- Use formal synonyms from the list, not the plain base words.
-- Draw structure and nuance from academic journals, broadsheet newspapers, and authoritative dictionaries.
-- Each sentence should be self-contained, analytically grounded, and contextually rich.
-- After each English sentence, provide a Bengali translation. Ensure the translation is natural and fluent—break, merge, or restructure sentences if necessary to match how native Bengali is spoken.`;
+Write sentences in the style of a reputable broadsheet editorial (similar to The Daily Star), maintaining clarity, precision, and measured sophistication.
+Guidelines:
+Each sentence should be clear, concise, and logically structured, avoiding unnecessary complexity or verbosity.
+Maintain a formal and analytical tone, but do not sacrifice readability for sophistication.
+Use refined vocabulary where appropriate, but avoid rare, archaic, or overly ornamental words.
+Prefer natural editorial phrasing over rigid academic or overly dense constructions.
+Ensure each sentence is self-contained, meaningful, and contextually grounded, with a subtle sense of insight or perspective.
+Vary sentence length moderately; avoid excessively long or multi-clause-heavy sentences unless necessary.
+Translation Requirement:
+After each English sentence, provide a natural and fluent Bengali translation.
+The translation should prioritize meaning and readability, not literal structure.
+You may restructure, split, or combine ideas to reflect how Bengali is naturally expressed.`;
 
   // HTML version with bold markup
   const wHTML = wList.map(w => `<b>${w.base}</b> (e.g. ${w.alts.join(', ')})`).join('; ');
@@ -907,8 +913,18 @@ Requirements:
 <b>Vocabulary words</b> (use formal synonyms): ${wHTML}<br><br>
 <b>Topics:</b><br>${tHTML}<br><br>
 <b>Pairing:</b> ${pairInstr.replace(/</g,'&lt;').replace(/>/g,'&gt;')}<br><br>
-Draw structure from academic journals, broadsheet newspapers, and authoritative dictionaries. Graduate-level English throughout.
-After each English sentence, provide a Bengali translation. Ensure the translation is natural and fluent—break, merge, or restructure sentences if necessary to match how native Bengali is spoken.`;
+Write sentences in the style of a reputable broadsheet editorial (similar to The Daily Star), maintaining clarity, precision, and measured sophistication.
+Guidelines:
+Each sentence should be clear, concise, and logically structured, avoiding unnecessary complexity or verbosity.
+Maintain a formal and analytical tone, but do not sacrifice readability for sophistication.
+Use refined vocabulary where appropriate, but avoid rare, archaic, or overly ornamental words.
+Prefer natural editorial phrasing over rigid academic or overly dense constructions.
+Ensure each sentence is self-contained, meaningful, and contextually grounded, with a subtle sense of insight or perspective.
+Vary sentence length moderately; avoid excessively long or multi-clause-heavy sentences unless necessary.
+Translation Requirement:
+After each English sentence, provide a natural and fluent Bengali translation.
+The translation should prioritize meaning and readability, not literal structure.
+You may restructure, split, or combine ideas to reflect how Bengali is naturally expressed.`;
 
   return { plain, html, wList, tList };
 }
